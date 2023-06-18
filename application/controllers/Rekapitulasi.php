@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Rekapitulasi extends CI_Controller
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->load->helper('form', 'string');
@@ -26,6 +26,10 @@ class Rekapitulasi extends CI_Controller
         $data['get_departemen'] = $this->Data_kontrak_model->get_departemen($get_pegawai['id_departemen']);
         $data['get_area'] = $this->Data_kontrak_model->get_area($get_pegawai['id_area']);
         $data['get_sub_area'] = $this->Data_kontrak_model->get_sub_area($get_pegawai['id_sub_area']);
+
+        $data['get_program'] = $this->Data_kontrak_model->get_mata_anggaran_analisis_data($data['id_departemen'], $data['id_area'],  $data['id_sub_area']);
+
+        // var_dump($data['get_program']); die;
         $this->load->view('template_stisla/header');
         $this->load->view('template_stisla/sidebar', $data);
         $this->load->view('rekapitulasi/index', $data);

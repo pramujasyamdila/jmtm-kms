@@ -6325,4 +6325,77 @@ class Data_kontrak_model extends CI_Model
         $updatedId = $this->db->get('tbl_unit_price')->row_array();
         return $updatedId;
     }
+
+    public function get_mata_anggaran_analisis_data($id_departemen, $id_area, $sub_area, $keyword = null)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_detail_program_penyedia_jasa');
+        $this->db->join('mst_kontrak', 'tbl_detail_program_penyedia_jasa.id_kontrak = mst_kontrak.id_kontrak');
+        $this->db->join('mst_departemen', 'mst_kontrak.id_departemen = mst_departemen.id_departemen', 'left');
+        $this->db->join('mst_area', 'mst_kontrak.id_area = mst_area.id_area', 'left');
+        $this->db->join('mst_sub_area', 'mst_kontrak.id_sub_area = mst_sub_area.id_sub_area', 'left');
+        $this->db->where('tbl_detail_program_penyedia_jasa.id_departemen', $id_departemen);
+        $this->db->where('tbl_detail_program_penyedia_jasa.id_area', $id_area);
+        $this->db->where('tbl_detail_program_penyedia_jasa.id_sub_area', $sub_area);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_mc_by_id($id_detail_program_penyedia_jasa)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_mc');
+        $this->db->join('tbl_rapot_dummy', 'tbl_mc.id_mc = tbl_rapot_dummy.id_mc', 'left');
+        $this->db->where('tbl_mc.id_detail_program_penyedia_jasa', $id_detail_program_penyedia_jasa);
+        $this->db->where('tbl_rapot_dummy.pic', 'Vendor');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_mc_by_id2($id_detail_program_penyedia_jasa)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_mc');
+        $this->db->join('tbl_rapot_dummy', 'tbl_mc.id_mc = tbl_rapot_dummy.id_mc', 'left');
+        $this->db->where('tbl_mc.id_detail_program_penyedia_jasa', $id_detail_program_penyedia_jasa);
+        $this->db->where('tbl_rapot_dummy.pic', 'Area');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+
+    public function get_mc_by_id3($id_detail_program_penyedia_jasa)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_mc');
+        $this->db->join('tbl_rapot_dummy', 'tbl_mc.id_mc = tbl_rapot_dummy.id_mc', 'left');
+        $this->db->where('tbl_mc.id_detail_program_penyedia_jasa', $id_detail_program_penyedia_jasa);
+        $this->db->where('tbl_rapot_dummy.pic', 'Pusat');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_mc_by_id4($id_detail_program_penyedia_jasa)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_mc');
+        $this->db->join('tbl_rapot_dummy', 'tbl_mc.id_mc = tbl_rapot_dummy.id_mc', 'left');
+        $this->db->where('tbl_mc.id_detail_program_penyedia_jasa', $id_detail_program_penyedia_jasa);
+        $this->db->where('tbl_rapot_dummy.pic', 'Finance');
+        $this->db->where('tbl_rapot_dummy.catatan_rapot !=', 'Pencairan');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_mc_by_id5($id_detail_program_penyedia_jasa)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_mc');
+        $this->db->join('tbl_rapot_dummy', 'tbl_mc.id_mc = tbl_rapot_dummy.id_mc', 'left');
+        $this->db->where('tbl_mc.id_detail_program_penyedia_jasa', $id_detail_program_penyedia_jasa);
+        $this->db->where('tbl_rapot_dummy.pic', 'Finance');
+        $this->db->where('tbl_rapot_dummy.catatan_rapot !=', 'Diterima Finance');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 }
